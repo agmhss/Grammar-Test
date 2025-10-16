@@ -104,7 +104,7 @@ const questions = [
   { sentence: "If I will see him, I will tell you.", options:["see","saw","seen","seeing"], answer:0, explanation:"In 'if' clauses (first conditional) use present: 'If I see'." },
   { sentence: "Neither of the answers are correct.", options:["is","are","were","be"], answer:0, explanation:"'Neither' is singular → 'is'." },
   { sentence: "I suggested him to study more.", options:["suggested him","suggested that he","suggested to him","suggested him to"], answer:1, explanation:"Use 'suggested that he study' or 'suggested to him' — best: 'suggested that he'." },
-  { sentence: "There is no any reason to worry.", options:["no any","any","not no any","no not any"], answer:1, explanation:"Correct: 'There is not any' or better 'There is no reason' but among options ' no any' fits the intended correction." },
+  { sentence: "There is no any reason to worry.", options:["no any","any","not no any","no not any"], answer:0, explanation:"Correct: 'There is not any' or better 'There is no reason' but among options ' no any' fits the intended correction." },
   { sentence: "She is better than me at chess.", options:["me","I","my","mine"], answer:1, explanation:"Formally 'better than I (am)' is correct; 'me' is common but informal." },
   { sentence: "We visited Paris last year, didn't we?", options:["did","didn't","do","does"], answer:1, explanation:"Negative question tag for positive statement is 'didn't we'." },
   { sentence: "Everyone must bring their pencil.", options:["his or her","their","its","theirs"], answer:0, explanation:"Formal singular 'everyone' takes 'his or her' (or use 'their' in modern usage)."},
@@ -159,7 +159,7 @@ const questions = [
   { sentence: "She can’t afford ____ a new car.", options:["buy","to buy","buying","bought"], answer:1, explanation:"'Afford' is followed by infinitive 'to buy'." },
   { sentence: "I look forward to ____ you soon.", options:["see","seeing","to see","seen"], answer:1, explanation:"'Look forward to' is followed by gerund." },
   { sentence: "He was late because he ____ the bus.", options:["miss","misses","missed","has missed"], answer:2, explanation:"Past simple fits with past reason." },
-  { sentence: "She’s the woman ____ won the prize.", options:["who","which","whose","whom"], answer:0, explanation:"Use 'who' for people as subject." }
+  { sentence: "She’s the woman ____ won the prize.", options:["who","which","whose","whom"], answer:0, explanation:"Use 'who' for people as subject." },
   { sentence:"He said ____ 'I will come tomorrow.'", options:[",",";","—",":"], answer:0, explanation:"Use a comma before direct speech." },
   { sentence:"Where are you going____", options:[".","?","!",";"], answer:1, explanation:"Questions end with a question mark." },
   { sentence:"Wow____ That was amazing!", options:[".","!","?",";"], answer:1, explanation:"Exclamatory sentences end with an exclamation mark." },
@@ -169,7 +169,7 @@ const questions = [
   { sentence:"This is Ramesh’s book, not ____.", options:["Ram","Rams","Ram's","Rams'"], answer:2, explanation:"Apostrophe with ’s shows possession." },
   { sentence:"My brother____ who lives abroad____ is visiting soon.", options:[", ,","( )","--","; ;"], answer:2, explanation:"Use dashes for extra information." },
   { sentence:"We visited Paris in June____ the weather was perfect.", options:[",",";","!","."], answer:1, explanation:"Semicolon separates related independent clauses." },
-  { sentence:"It was cold____ she wore a coat.", options:[",",";","?","!"], answer:1, explanation:"Semicolon connects two complete thoughts." }
+  { sentence:"It was cold____ she wore a coat.", options:[",",";","?","!"], answer:1, explanation:"Semicolon connects two complete thoughts." },
   { sentence:"I can’t ____ to hear the news!", options:["wait","weight","waite","wate"], answer:0, explanation:"'Wait' means to stay or delay." },
   { sentence:"He hurt his ____ while running.", options:["heel","heal","he’ll","hail"], answer:0, explanation:"'Heel' refers to the back of the foot." },
   { sentence:"Please ____ the door before you leave.", options:["close","clothes","cloze","closs"], answer:0, explanation:"'Close' means to shut." },
@@ -179,7 +179,7 @@ const questions = [
   { sentence:"I bought a new pair of ____.", options:["jeans","genes","jeens","geans"], answer:0, explanation:"'Jeans' are denim pants." },
   { sentence:"He threw the ball ____ the window.", options:["through","threw","thru","thrue"], answer:1, explanation:"'Threw' is past tense of 'throw'." },
   { sentence:"Please ____ the book to me.", options:["lend","land","lean","lane"], answer:0, explanation:"'Lend' means to give temporarily." },
-  { sentence:"We went ____ the park.", options:["by","buy","bye","bee"], answer:0, explanation:"'By' indicates direction or location." }
+  { sentence:"We went ____ the park.", options:["by","buy","bye","bee"], answer:0, explanation:"'By' indicates direction or location." },
   { sentence:"He will ____ the meeting at noon.", options:["address","speech","talk","speak"], answer:0, explanation:"'Address' can mean both to speak or a location." },
   { sentence:"The duck will ____ under the bridge.", options:["duck","go","move","hide"], answer:0, explanation:"'Duck' is both noun and verb." },
   { sentence:"Please ____ the leaves.", options:["park","rake","leave","pile"], answer:1, explanation:"'Rake' means both a tool and the action." },
@@ -189,7 +189,7 @@ const questions = [
   { sentence:"The train will ____ at six.", options:["left","leave","live","lead"], answer:1, explanation:"'Leave' can mean go away or remain out." },
   { sentence:"The bark of the tree is rough.", options:["sound","voice","tree covering","leaf"], answer:2, explanation:"'Bark' means both tree covering and dog sound." },
   { sentence:"She can’t bear the pain.", options:["carry","endure","lift","ignore"], answer:1, explanation:"'Bear' can mean both tolerate and an animal." },
-  { sentence:"He saw a bright light ____ the tunnel.", options:["in","at","end","through"], answer:2, explanation:"'Light' can mean both illumination and not heavy." }
+  { sentence:"He saw a bright light ____ the tunnel.", options:["in","at","end","through"], answer:2, explanation:"'Light' can mean both illumination and not heavy." },
   { sentence:"I stayed home ____ it was raining.", options:["because","so","but","though"], answer:0, explanation:"‘Because’ shows reason." },
   { sentence:"He is poor ____ honest.", options:["but","and","so","for"], answer:0, explanation:"‘But’ contrasts two ideas." },
   { sentence:"I was tired ____ I went to bed early.", options:["so","because","though","but"], answer:0, explanation:"‘So’ shows result." },
@@ -199,7 +199,7 @@ const questions = [
   { sentence:"I will call you ____ I reach home.", options:["when","so","because","though"], answer:0, explanation:"‘When’ shows time." },
   { sentence:"He is tall ____ strong.", options:["and","so","or","but"], answer:0, explanation:"‘And’ adds similar ideas." },
   { sentence:"She didn’t study hard; ____ she failed.", options:["therefore","though","because","but"], answer:0, explanation:"‘Therefore’ shows consequence." },
-  { sentence:"He runs fast ____ he is late.", options:["because","though","so","and"], answer:1, explanation:"‘Though’ shows concession." }
+  { sentence:"He runs fast ____ he is late.", options:["because","though","so","and"], answer:1, explanation:"‘Though’ shows concession." },
 
 ];
 
