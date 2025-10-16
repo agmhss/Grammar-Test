@@ -30,6 +30,7 @@
   .hof-list{margin-top:8px}
   .hof-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #fff2e6}
   .certificate{display:none}
+  .hidden { display:none; }
   @media(max-width:520px){
     .options{grid-template-columns:1fr}
     header{gap:8px}
@@ -72,7 +73,7 @@
       <button id="showHofBtn" class="btn-ghost">Show Hall of Fame</button>
     </div>
 
-    <div class="hall hidden" id="hall">
+    <div class="hall hidden" id="hall" aria-live="polite">
       <strong>🏆 Hall of Fame (Top 10)</strong>
       <div class="hof-list" id="hofList"></div>
 
@@ -87,70 +88,28 @@
   </div>
 
 <script>
-/* ======= Question bank =======
-   Each item: sentence (possibly with an error), options array, answerIndex, explanation.
-   You can expand / edit this array.
-*/
+/* ======= Question bank ======= */
 const questions = [
-  { sentence: "She ____ to the store every Saturday.", options:["go","goes","gone","going"], answer:1,
-    explanation:"Third person singular (she) requires 'goes'." },
-
-  { sentence: "They has finished their homework.", options:["have","has","had","having"], answer:0,
-    explanation:"Subject 'they' takes 'have' not 'has'." },
-
-  { sentence: "He don't like vegetables.", options:["doesn't","don't","didn't","not"], answer:0,
-    explanation:"Third person singular (he) + negative → 'doesn't'." },
-
-  { sentence: "I have went to the market.", options:["went","gone","go","been"], answer:1,
-    explanation:"Present perfect requires past participle 'gone'." },
-
-  { sentence: "There is many books on the table.", options:["are","is","was","were"], answer:0,
-    explanation:"Plural 'books' needs 'are'." },
-
-  { sentence: "Who did you met yesterday?", options:["meet","met","meeting","meets"], answer:0,
-    explanation:"After 'did' the base form 'meet' should be used." },
-
-  { sentence: "She is as tall like her sister.", options:["as","like","than","so"], answer:0,
-    explanation:"Correct comparative structure is 'as ... as'." },
-
-  { sentence: "Each of the boys have a pen.", options:["has","have","is","are"], answer:0,
-    explanation:"'Each' (singular) takes 'has'." },
-
-  { sentence: "It's time we ____ to leave.", options:["go","went","gone","going"], answer:1,
-    explanation:"Subjunctive: 'we went' (but often 'to go' used) — accepted 'went'." },
-
-  { sentence: "Please give the book to John and I.", options:["I","me","we","us"], answer:1,
-    explanation:"Object of preposition should be 'me'." },
-
-  { sentence: "She sang more beautifully than me.", options:["I","me","my","mine"], answer:0,
-    explanation:"After 'than' in comparisons referring to subject, use 'I' (formal)." },
-
-  { sentence: "If I will see him, I will tell you.", options:["see","saw","seen","seeing"], answer:0,
-    explanation:"In 'if' clauses (first conditional) use present: 'If I see'." },
-
-  { sentence: "Neither of the answers are correct.", options:["is","are","were","be"], answer:0,
-    explanation:"'Neither' is singular → 'is'." },
-
-  { sentence: "I suggested him to study more.", options:["suggested him","suggested that he","suggested to him","suggested him to"], answer:1,
-    explanation:"Use 'suggested that he study' or 'suggested to him' — best: 'suggested that he'." },
-
-  { sentence: "There is no any reason to worry.", options:["no","any","no any","not any"], answer:1,
-    explanation:"Correct: 'There is not any' or better 'There is no reason' but among options 'any' fits the intended correction." },
-
-  { sentence: "She is better than me at chess.", options:["me","I","my","mine"], answer:1,
-    explanation:"Formally 'better than I (am)' is correct; 'me' is common but informal." },
-
-  { sentence: "We visited Paris last year, didn't we?", options:["did","didn't","do","does"], answer:1,
-    explanation:"Negative question tag for positive statement is 'didn't we'." },
-
-  { sentence: "Everyone must bring their pencil.", options:["his or her","their","its","theirs"], answer:0,
-    explanation:"Formal singular 'everyone' takes 'his or her' (or use 'their' in modern usage)."},
-  
-  { sentence: "I am interesting in music.", options:["interested","interesting","interest","interests"], answer:0,
-    explanation:"Use adjective 'interested' (feeling) not 'interesting' (causing interest)." },
-
-  { sentence: "He is one of the best player in the team.", options:["player","players","playing","plays"], answer:1,
-    explanation:"One of the + plural noun → 'players'." }
+  { sentence: "She ____ to the store every Saturday.", options:["go","goes","gone","going"], answer:1, explanation:"Third person singular (she) requires 'goes'." },
+  { sentence: "They has finished their homework.", options:["have","has","had","having"], answer:0, explanation:"Subject 'they' takes 'have' not 'has'." },
+  { sentence: "He don't like vegetables.", options:["doesn't","don't","didn't","not"], answer:0, explanation:"Third person singular (he) + negative → 'doesn't'." },
+  { sentence: "I have went to the market.", options:["went","gone","go","been"], answer:1, explanation:"Present perfect requires past participle 'gone'." },
+  { sentence: "There is many books on the table.", options:["are","is","was","were"], answer:0, explanation:"Plural 'books' needs 'are'." },
+  { sentence: "Who did you met yesterday?", options:["meet","met","meeting","meets"], answer:0, explanation:"After 'did' the base form 'meet' should be used." },
+  { sentence: "She is as tall like her sister.", options:["as","like","than","so"], answer:0, explanation:"Correct comparative structure is 'as ... as'." },
+  { sentence: "Each of the boys have a pen.", options:["has","have","is","are"], answer:0, explanation:"'Each' (singular) takes 'has'." },
+  { sentence: "It's time we ____ to leave.", options:["go","went","gone","going"], answer:1, explanation:"Subjunctive: 'we went' (but often 'to go' used) — accepted 'went'." },
+  { sentence: "Please give the book to John and I.", options:["I","me","we","us"], answer:1, explanation:"Object of preposition should be 'me'." },
+  { sentence: "She sang more beautifully than me.", options:["I","me","my","mine"], answer:0, explanation:"After 'than' in comparisons referring to subject, use 'I' (formal)." },
+  { sentence: "If I will see him, I will tell you.", options:["see","saw","seen","seeing"], answer:0, explanation:"In 'if' clauses (first conditional) use present: 'If I see'." },
+  { sentence: "Neither of the answers are correct.", options:["is","are","were","be"], answer:0, explanation:"'Neither' is singular → 'is'." },
+  { sentence: "I suggested him to study more.", options:["suggested him","suggested that he","suggested to him","suggested him to"], answer:1, explanation:"Use 'suggested that he study' or 'suggested to him' — best: 'suggested that he'." },
+  { sentence: "There is no any reason to worry.", options:["no","any","no any","not any"], answer:1, explanation:"Correct: 'There is not any' or better 'There is no reason' but among options 'any' fits the intended correction." },
+  { sentence: "She is better than me at chess.", options:["me","I","my","mine"], answer:1, explanation:"Formally 'better than I (am)' is correct; 'me' is common but informal." },
+  { sentence: "We visited Paris last year, didn't we?", options:["did","didn't","do","does"], answer:1, explanation:"Negative question tag for positive statement is 'didn't we'." },
+  { sentence: "Everyone must bring their pencil.", options:["his or her","their","its","theirs"], answer:0, explanation:"Formal singular 'everyone' takes 'his or her' (or use 'their' in modern usage)."},
+  { sentence: "I am interesting in music.", options:["interested","interesting","interest","interests"], answer:0, explanation:"Use adjective 'interested' (feeling) not 'interesting' (causing interest)." },
+  { sentence: "He is one of the best player in the team.", options:["player","players","playing","plays"], answer:1, explanation:"One of the + plural noun → 'players'." }
 ];
 
 /* ======= Game state ======= */
@@ -185,6 +144,10 @@ const certCanvas = document.getElementById('certificate');
 const BEST_KEY = 'grammarGuardianBest';
 const HOF_KEY = 'grammarGuardianHOF';
 const HOF_THRESHOLD = 6; // example: reach 6 to qualify
+
+/* ======= Server endpoint (Apps Script Web App URL) ======= */
+// Replace this with your deployed web app URL
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxSVfVnyP6gk7kr283_EeXnJV7GvGfsAlaEUpAE_WkVw58zYkCRf4qYQd1z4RDWz0oumw/exec';
 
 /* ======= Helpers ======= */
 function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] } }
@@ -232,9 +195,6 @@ function startTimer(seconds){
     remaining--;
     if(remaining < 0){ clearTimer(); timerEl.textContent = 'Time: 0s'; autoSubmit(); return; }
     timerEl.textContent = `Time: ${remaining}s`;
-    // small visual progress
-    const total = timePerQ;
-    const pct = Math.round(((qIndex) / questions.length) * 100);
   },1000);
 }
 
@@ -304,41 +264,61 @@ function endGame(){
   if(score >= HOF_THRESHOLD){
     alert('Great job! You qualify for the Hall of Fame. Enter your name and press Save in the Hall of Fame panel.');
     hallEl.classList.remove('hidden');
-    populateHOF();
-    submitScore(playerName, finalScore);
-
+    populateHOF(); // will fetch remote top10 and show local top as well
   }
   // show certificate option automatically
   generateCertificate();
 }
 
-/* ======= Hall of Fame (localStorage) ======= */
+/* ======= Hall of Fame (localStorage + remote) ======= */
 function loadHOF(){ try{ return JSON.parse(localStorage.getItem(HOF_KEY) || '[]') }catch(e){ return [] } }
 function saveHOF(list){ localStorage.setItem(HOF_KEY, JSON.stringify(list)); }
 
-function populateHOF(){
-  const list = loadHOF();
-  // sort by score desc, date asc
-  list.sort((a,b)=> b.score - a.score || a.date - b.date);
-  const top10 = list.slice(0,10);
+/* Render HOF: we will show remote top10 (if available) first */
+async function populateHOF(){
+  hofListEl.innerHTML = '<div style="padding:8px;color:#666">Loading...</div>';
+  // try fetch remote top 10
+  const remote = await fetchTop10().catch(()=>[]);
   hofListEl.innerHTML = '';
-  if(top10.length === 0){ hofListEl.innerHTML = '<div style="padding:8px;color:#666">No entries yet</div>'; return; }
-  top10.forEach((it,idx)=>{
-    const div = document.createElement('div');
-    div.className = 'hof-item';
-    div.innerHTML = `<div>${idx+1}. ${escapeHtml(it.name)}</div><div>${it.score}</div>`;
-    hofListEl.appendChild(div);
-  });
+  if(remote && remote.length > 0){
+    remote.forEach((it, idx) => {
+      const div = document.createElement('div');
+      div.className = 'hof-item';
+      div.innerHTML = `<div>${idx+1}. ${escapeHtml(it.name)}</div><div>${it.score}</div>`;
+      hofListEl.appendChild(div);
+    });
+  } else {
+    // fallback to local HOF
+    const list = loadHOF().sort((a,b)=> b.score - a.score).slice(0,10);
+    if(list.length === 0){
+      hofListEl.innerHTML = '<div style="padding:8px;color:#666">No entries yet</div>';
+      return;
+    }
+    list.forEach((it, idx) => {
+      const div = document.createElement('div');
+      div.className = 'hof-item';
+      div.innerHTML = `<div>${idx+1}. ${escapeHtml(it.name)}</div><div>${it.score}</div>`;
+      hofListEl.appendChild(div);
+    });
+  }
 }
 
-function saveMyHOFEntry(){
+/* Save HOF entry locally and remotely */
+async function saveMyHOFEntry(){
   const name = (hofNameInput.value || 'Anonymous').trim();
   if(!name){ alert('Enter a name first'); return; }
+  // save locally
   const list = loadHOF();
   list.push({ name, score, date: Date.now() });
   saveHOF(list);
-  populateHOF();
-  alert('Saved to Hall of Fame (local).');
+
+  // attempt to save to remote server
+  const serverResult = await submitScoreToServer(name, score);
+  // serverResult is text (Apps Script returns simple text)
+  console.log('Server save result:', serverResult);
+
+  await populateHOF();
+  alert('Saved to Hall of Fame (local + attempted remote).');
 }
 
 /* ======= Certificate generation (canvas) ======= */
@@ -382,14 +362,45 @@ function generateCertificate(){
 }
 
 /* ======= Utilities ======= */
-function escapeHtml(str){ return str.replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* ======= Server communication (Apps Script) ======= */
+// submit a score (POST)
+// Apps Script doPost returns plain text, so parse as text
+async function submitScoreToServer(name, score){
+  try {
+    const res = await fetch(WEBAPP_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, score })
+    });
+    const txt = await res.text();
+    return txt;
+  } catch (err) {
+    console.error('Submit error', err);
+    return null;
+  }
+}
+
+// fetch top 10 (GET)
+async function fetchTop10(){
+  try {
+    const res = await fetch(WEBAPP_URL);
+    // Expecting JSON array from doGet
+    const top10 = await res.json();
+    return top10; // array of {date, name, score}
+  } catch (err) {
+    console.error('Fetch HOF error', err);
+    return [];
+  }
+}
 
 /* ======= Events ======= */
 submitBtn.addEventListener('click', ()=> submitAnswer());
 skipBtn.addEventListener('click', ()=> { clearTimer(); qIndex++; if(qIndex<questions.length) renderQuestion(); else endGame(); });
 startBtn.addEventListener('click', ()=> { hallEl.classList.add('hidden'); startGame(); });
 resetBtn.addEventListener('click', ()=> { if(confirm('Reset best score and Hall of Fame?')){ localStorage.removeItem(BEST_KEY); localStorage.removeItem(HOF_KEY); bestScoreEl.textContent='0'; populateHOF(); alert('Reset done.'); }});
-showHofBtn.addEventListener('click', ()=> { hallEl.classList.toggle('hidden'); populateHOF(); });
+showHofBtn.addEventListener('click', ()=> { hallEl.classList.toggle('hidden'); if(!hallEl.classList.contains('hidden')) populateHOF(); });
 saveHofBtn.addEventListener('click', saveMyHOFEntry);
 
 /* ======= Initialize UI ======= */
@@ -399,90 +410,9 @@ saveHofBtn.addEventListener('click', saveMyHOFEntry);
   currentScoreEl.textContent = score;
   // attach keyboard submit: Enter
   optionsEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') submitAnswer(); });
+  // attempt to load remote HOF initially (non-blocking)
+  window.addEventListener('load', populateHOF);
 })();
-  const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxSVfVnyP6gk7kr283_EeXnJV7GvGfsAlaEUpAE_WkVw58zYkCRf4qYQd1z4RDWz0oumw/exec';
-
-
-
-// submit a score (POST)
-
-async function submitScoreToServer(name, score){
-
- try {
-
-  const res = await fetch(WEBAPP_URL, {
-
-   method: 'POST',
-
-   headers: { 'Content-Type': 'application/json' },
-
-   body: JSON.stringify({ name, score })
-
-  });
-
-  const data = await res.json();
-
-  return data;
-
- } catch (err) {
-
-  console.error('Submit error', err);
-
-  return null;
-
- }
-
-}
-
-
-
-// fetch top 10 (GET)
-
-async function fetchTop10(){
-
- try {
-
-  const res = await fetch(WEBAPP_URL);
-
-  const top10 = await res.json();
-
-  return top10; // array of {name, score, date}
-
- } catch (err) {
-
-  console.error('Fetch HOF error', err);
-
-  return [];
-
- }
-
-}
-  <div id="hallOfFame">
-  <h3>🏅 Hall of Fame – Top 10 Players</h3>
-  <ol id="scoreList"></ol>
-</div>
-
-<script>
-async function fetchTop10() {
-  const res = await fetch(WEBAPP_URL);
-  const data = await res.json();
-  const list = document.getElementById("scoreList");
-  list.innerHTML = "";
-  data.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.name} — ${entry.score}`;
-    list.appendChild(li);
-  });
-}
-
-// Load leaderboard when the page opens
-window.onload = fetchTop10;
 </script>
-
-
-
-</script>
-
-
 </body>
 </html>
