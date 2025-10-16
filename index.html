@@ -305,6 +305,8 @@ function endGame(){
     alert('Great job! You qualify for the Hall of Fame. Enter your name and press Save in the Hall of Fame panel.');
     hallEl.classList.remove('hidden');
     populateHOF();
+    submitScore(playerName, finalScore);
+
   }
   // show certificate option automatically
   generateCertificate();
@@ -455,6 +457,28 @@ async function fetchTop10(){
  }
 
 }
+  <div id="hallOfFame">
+  <h3>🏅 Hall of Fame – Top 10 Players</h3>
+  <ol id="scoreList"></ol>
+</div>
+
+<script>
+async function fetchTop10() {
+  const res = await fetch(WEBAPP_URL);
+  const data = await res.json();
+  const list = document.getElementById("scoreList");
+  list.innerHTML = "";
+  data.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = `${entry.name} — ${entry.score}`;
+    list.appendChild(li);
+  });
+}
+
+// Load leaderboard when the page opens
+window.onload = fetchTop10;
+</script>
+
 
 
 </script>
