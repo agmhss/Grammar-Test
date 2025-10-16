@@ -399,5 +399,64 @@ saveHofBtn.addEventListener('click', saveMyHOFEntry);
   optionsEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') submitAnswer(); });
 })();
 </script>
+  const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxSVfVnyP6gk7kr283_EeXnJV7GvGfsAlaEUpAE_WkVw58zYkCRf4qYQd1z4RDWz0oumw/exec';
+
+
+
+// submit a score (POST)
+
+async function submitScoreToServer(name, score){
+
+ try {
+
+  const res = await fetch(WEBAPP_URL, {
+
+   method: 'POST',
+
+   headers: { 'Content-Type': 'application/json' },
+
+   body: JSON.stringify({ name, score })
+
+  });
+
+  const data = await res.json();
+
+  return data;
+
+ } catch (err) {
+
+  console.error('Submit error', err);
+
+  return null;
+
+ }
+
+}
+
+
+
+// fetch top 10 (GET)
+
+async function fetchTop10(){
+
+ try {
+
+  const res = await fetch(WEBAPP_URL);
+
+  const top10 = await res.json();
+
+  return top10; // array of {name, score, date}
+
+ } catch (err) {
+
+  console.error('Fetch HOF error', err);
+
+  return [];
+
+ }
+
+}
+
+
 </body>
 </html>
