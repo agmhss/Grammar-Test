@@ -1,1 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Grammar Guardian ✍️ – Improved</title>
+<style>
+  :root{--bg1:#f0f7ff;--card:#fff;--accent:#2b6cb0;--ok:#16a34a;--bad:#dc2626}
+  html,body{height:100%;margin:0;font-family:Inter,Arial,sans-serif;background:linear-gradient(180deg,var(--bg1),#e6f0ff);display:flex;align-items:center;justify-content:center;padding:12px}
+  .wrap{width:100%;max-width:720px;background:var(--card);border-radius:14px;box-shadow:0 10px 30px rgba(20,30,60,.12);padding:18px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+  header h1{margin:0;font-size:1.2rem;color:var(--accent)}
+  .meta{margin-left:auto;text-align:right;font-size:.9rem}
+  .score{font-weight:700;color:#0b6;display:block;font-size:1.4rem}
+  .card{padding:14px;border-radius:10px;border:1px solid #eef5ff;background:linear-gradient(180deg,#fff,#fbfdff);margin-bottom:12px}
+  .sentence{font-size:1.1rem;padding:10px;border-radius:8px;background:#f7fbff;border:1px dashed #dfeeff;min-height:48px;display:flex;align-items:center}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .opt{padding:10px;border-radius:8px;border:1px solid #e6eefc;background:white;cursor:pointer;user-select:none}
+  .opt.selected{outline:3px solid rgba(43,108,176,.12)}
+  .opt.correct{border-color:var(--ok);background:rgba(16,185,129,.06)}
+  .opt.wrong{border-color:var(--bad);background:rgba(220,38,38,.04)}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer}
+  .btn-ghost{background:#fff;border:1px solid #dbeefe;color:var(--accent)}
+  .timer{font-weight:700;padding:6px 10px;border-radius:8px;background:#f1f7ff;border:1px solid #dbeefe}
+  .progress{height:8px;background:#eef6ff;border-radius:8px;margin-top:8px;overflow:hidden}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,#2b6cb0,#4f9ae6);width:0%}
+  .feedback{margin-top:8px;font-weight:700;min-height:22px}
+  .hall{margin-top:10px;padding:10px;border-radius:8px;background:#fff7ef;border:1px solid #ffe8cc}
+  .hof-list{margin-top:8px}
+  .hof-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #fff2e6}
+  .certificate{display:none}
+  .hidden { display:none; }
+  .download-link{margin-top:10px;display:none}
+  @media(max-width:520px){
+    .options{grid-template-columns:1fr}
+    header{gap:8px}
+    .meta{text-align:left;margin-left:0}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap" role="application" aria-label="Grammar Guardian">
+    <header>
+      <div>
+        <h1>Grammar Guardian ✍️</h1>
+        <div style="font-size:.88rem;color:#556">Fix sentences — learn grammar in minutes</div>
+      </div>
+      <div class="meta" aria-live="polite">
+        <!-- We display both raw score and percentage in the UI -->
+        <div>Score: <span id="currentScore" class="score">0</span></div>
+        <!-- Removed best score display -->
+      </div>
+    </header>
 
+    <div class="card" id="questionCard" aria-live="polite">
+      <div class="sentence" id="sentence">Loading question...</div>
+
+      <div class="options" id="options"></div>
+
+      <div class="controls">
+        <!-- Timer removed -->
+        <button id="submitBtn">Submit Answer</button>
+        <button id="skipBtn" class="btn-ghost">Skip</button>
+        <div style="margin-left:auto;font-size:.9rem;color:#667">Q <span id="qIndex">0</span>/<span id="qTotal">0</span></div>
+      </div>
+
+      <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <button id="startBtn">Start Game</button>
+      <!-- Reset button removed -->
+      <button id="showHofBtn" class="btn-ghost">Show Hall of Fame</button>
+    </div>
+
+    <div class="hall hidden" id="hall" aria-live="polite">
+      <strong>🏆 Hall of Fame (Top 10)</strong>
+      <div class="hof-list" id="hofList"></div>
+
+      <div style="margin-top:10px">
+        <div style="font-size:.95rem">If you make the top score, enter your name:</div>
+        <input id="hofName" placeholder="Your name" style="padding:8px;border-radius:6px;border:1px solid #e1eefc;width:60%;margin-top:8px" maxlength="30"/>
+        <button id="saveHofBtn" style="margin-left:8px">Save</button>
+        <!-- Download HOF button -->
+        <button id="downloadHofBtn" class="btn-ghost" style="margin-left:8px">Download HOF</button>
+      </div>
+    </div>
+
+    <canvas id="certificate" class="certificate" width="1000" height="700"></canvas>
+    <!-- link used to download the certificate -->
+    <a id="certDownloadLink" class="download-link" download="certificate.png">Download Certificate</a>
+  </div>
+
+<script>
+/* ======= Question bank ======= */
+const questions = [
+  { sentence: "She ____ to the store every Saturday.", options:["go","goes","gone","going"], answer:1, explanation:"Third person singular (she) requires 'goes'." },
+  { sentence: "They has finished their homework.", options:["have","has","had","having"], answer:0, explanation:"Subject 'they' takes 'have' not 'has'." },
+  { sentence: "He don't like vegetables.", options:["doesn't","don't","didn't","not"], answer:0, explanation:"Third person singular (he) + negative → 'doesn't'." },
+  { sentence: "I have went to the market.", options:["went","gone","go","been"], answer:1, explanation:"Present perfect requires past participle 'gone'." },
+  { sentence: "There is many books on the table.", options:["are","is","was","were"], answer:0, explanation:"Plural 'books' needs 'are'." },
+  { sentence:"You can come with me ____ stay here.", options:["or","and","so","but"], answer:0, explanation:"‘Or’ shows choice." },
+  { sentence:"I will call you ____ I reach home.", options:["when","so","because","though"], answer:0, explanation:"‘When’ shows time." },
+  { sentence:"He is thin ____ strong.", options:["and","so","or","but"], answer:3, explanation:"‘And’ adds similar ideas." },
+  { sentence:"She didn’t study hard; ____ she failed.", options:["therefore","though","because","but"], answer:0, explanation:"‘Therefore’ shows consequence." },
+  { sentence:"He runs fast ____ he is late.", options:["because","though","so","and"], answer:0, explanation:"‘Though’ shows concession." },
+];
+
+/* ======= Game state ======= */
+let qIndex = 0;
+let score = 0;
+let running = false;
+let selected = null;
+// Timer removed: no countdown functionality
+
+/* ======= DOM ======= */
+const sentenceEl = document.getElementById('sentence');
+const optionsEl = document.getElementById('options');
+// const timerEl = document.getElementById('timer'); // timer element removed
+const feedbackEl = document.getElementById('feedback');
+const submitBtn = document.getElementById('submitBtn');
+const skipBtn = document.getElementById('skipBtn');
+const startBtn = document.getElementById('startBtn');
+// const resetBtn = document.getElementById('resetBtn'); // removed: no reset button
+const qIndexEl = document.getElementById('qIndex');
+const qTotalEl = document.getElementById('qTotal');
+const progressBar = document.getElementById('progressBar');
+const currentScoreEl = document.getElementById('currentScore');
+// bestScoreEl removed: no best score display
+const hallEl = document.getElementById('hall');
+const showHofBtn = document.getElementById('showHofBtn');
+const hofListEl = document.getElementById('hofList');
+const saveHofBtn = document.getElementById('saveHofBtn');
+const downloadHofBtn = document.getElementById('downloadHofBtn');
+const hofNameInput = document.getElementById('hofName');
+const certCanvas = document.getElementById('certificate');
+const certDownloadLink = document.getElementById('certDownloadLink');
+
+// const BEST_KEY = 'grammarGuardianBest'; // removed best score storage key
+const HOF_KEY = 'grammarGuardianHOF';
+const HOF_THRESHOLD = 60; // percent threshold to qualify for HOF
+
+/* ======= Helpers ======= */
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] } }
+// Timer removed: clearTimer is now a no-op
+function clearTimer(){ }
+// Removed getBest() and setBest() – no longer tracking best score
+
+/* ======= Render ======= */
+function renderQuestion(){
+  if(qIndex >= questions.length){ endGame(); return; }
+  selected = null;
+  feedbackEl.textContent = '';
+  const q = questions[qIndex];
+  sentenceEl.textContent = q.sentence;
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'opt';
+    btn.tabIndex = 0;
+    btn.textContent = opt;
+    btn.addEventListener('click', ()=> selectOption(i, btn));
+    btn.addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') selectOption(i, btn) });
+    optionsEl.appendChild(btn);
+  });
+  qIndexEl.textContent = qIndex+1;
+  qTotalEl.textContent = questions.length;
+  updateProgress();
+  // Timer removed: no countdown per question
+}
+
+function selectOption(i, el){
+  document.querySelectorAll('.opt').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  selected = i;
+  feedbackEl.textContent = '';
+}
+
+/* ======= Timer ======= */
+// Timer removed: startTimer is now a no-op
+function startTimer(seconds){ }
+
+/* ======= Score Helpers ======= */
+function calculatePercentage(){
+  // percentage based on number of questions attempted (qIndex + 1) and correct answers (score)
+  const attempted = Math.min(qIndex + 1, questions.length);
+  if(attempted === 0) return 0;
+  return (score / attempted) * 100;
+}
+
+function updateScoreDisplay(){
+  const pct = calculatePercentage();
+  // display percentage with 0 decimal for brevity
+  // show number of attempted questions (qIndex+1)
+  const attempted = Math.min(qIndex + 1, questions.length);
+  currentScoreEl.textContent = `${pct.toFixed(0)}% (${score}/${attempted})`;
+}
+
+/* ======= Submit / scoring ======= */
+function submitAnswer(){
+  if(!running) return;
+  const q = questions[qIndex];
+  if(selected === null){ feedbackEl.textContent = 'Please choose an option or Skip.'; return; }
+  // Timer removed: nothing to clear
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach((el, idx)=>{
+    if(idx === q.answer) el.classList.add('correct');
+    if(idx === selected && idx !== q.answer) el.classList.add('wrong');
+  });
+  if(selected === q.answer){
+    score++;
+    feedbackEl.textContent = '✅ Correct! +1';
+    feedbackEl.style.color = '#0b6';
+  } else {
+    feedbackEl.textContent = '❌ Incorrect. ' + q.explanation;
+    feedbackEl.style.color = '#b22222';
+  }
+  // update display
+  updateScoreDisplay();
+  // best score tracking removed
+
+  // move to next after delay
+  setTimeout(()=> {
+    qIndex++;
+    if(qIndex < questions.length) renderQuestion(); else endGame();
+  }, 1300);
+}
+
+// Timer removed: autoSubmit is no longer used
+function autoSubmit(){ }
+
+function updateProgress(){
+  const pct = Math.round((qIndex / questions.length) * 100);
+  progressBar.style.width = pct + '%';
+}
+
+/* ======= Game flow ======= */
+function startGame(){
+  shuffle(questions);
+  qIndex = 0; score = 0;
+  running = true;
+  currentScoreEl.textContent = '0% (0/0)';
+  document.getElementById('feedback').textContent = '';
+  renderQuestion();
+}
+
+function endGame(){
+  running = false;
+  // Timer removed: nothing to clear
+  const finalPct = ((score / questions.length) * 100).toFixed(0);
+  feedbackEl.style.color = '#333';
+  feedbackEl.textContent = `Game over — you scored ${finalPct}% (${score}/${questions.length}).`;
+  // if qualifies for HOF prompt (percent threshold)
+  if(finalPct >= HOF_THRESHOLD){
+    alert('Great job! You qualify for the Hall of Fame. Enter your name and press Save in the Hall of Fame panel.');
+    hallEl.classList.remove('hidden');
+    populateHOF(); // show local top10
+  }
+  // generate certificate automatically for convenience
+  generateCertificate(finalPct);
+}
+
+/* ======= Hall of Fame (localStorage only) ======= */
+function loadHOF(){ try{ return JSON.parse(localStorage.getItem(HOF_KEY) || '[]') }catch(e){ return [] } }
+function saveHOF(list){ localStorage.setItem(HOF_KEY, JSON.stringify(list)); }
+
+function populateHOF(){
+  hofListEl.innerHTML = '';
+  const list = loadHOF().sort((a,b)=> b.score - a.score).slice(0,10);
+  if(list.length === 0){
+    hofListEl.innerHTML = '<div style="padding:8px;color:#666">No entries yet</div>';
+    return;
+  }
+  list.forEach((it, idx) => {
+    const div = document.createElement('div');
+    div.className = 'hof-item';
+    div.innerHTML = `<div>${idx+1}. ${escapeHtml(it.name)}</div><div>${it.score.toFixed(0)}%</div>`;
+    hofListEl.appendChild(div);
+  });
+}
+
+/* Save HOF entry locally */
+function saveMyHOFEntry(){
+  const name = (hofNameInput.value || 'Anonymous').trim();
+  if(!name){ alert('Enter a name first'); return; }
+  const percentage = ((score / questions.length) * 100);
+  // save locally
+  const list = loadHOF();
+  list.push({ name, score: percentage });
+  saveHOF(list);
+  populateHOF();
+  alert('Saved to Hall of Fame.');
+}
+
+/* Download Hall of Fame data as JSON */
+function downloadHOFData(){
+  const data = JSON.stringify(loadHOF(), null, 2);
+  const blob = new Blob([data], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'hall_of_fame.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ======= Certificate generation (canvas) ======= */
+function generateCertificate(finalPct){
+  const ctx = certCanvas.getContext('2d');
+  // clear canvas
+  ctx.clearRect(0,0,certCanvas.width,certCanvas.height);
+  // background
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0,0,certCanvas.width,certCanvas.height);
+  // border
+  ctx.strokeStyle = '#2b6cb0';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(30,30,certCanvas.width-60,certCanvas.height-60);
+  // title
+  ctx.fillStyle = '#2b6cb0';
+  ctx.font = '48px Georgia';
+  ctx.fillText('Certificate of Achievement', 90, 160);
+  // subtitle
+  ctx.fillStyle = '#333';
+  ctx.font = '28px Arial';
+  ctx.fillText(`This certifies that`, 90, 240);
+  // name
+  const name = (hofNameInput.value || 'Player').toUpperCase();
+  ctx.font = 'bold 46px Arial';
+  ctx.fillStyle = '#0b6';
+  ctx.fillText(name, 90, 310);
+  // achievement
+  ctx.font = '24px Arial';
+  ctx.fillStyle = '#333';
+  ctx.fillText(`scored ${finalPct}% (${score}/${questions.length}) in Grammar Guardian`, 90, 370);
+  // date
+  const d = new Date().toLocaleDateString();
+  ctx.font = '18px Arial';
+  ctx.fillStyle = '#666';
+  ctx.fillText(`Date: ${d}`, 90, certCanvas.height - 80);
+  // convert to blob and set download link
+  certCanvas.toBlob(function(blob){
+    const url = URL.createObjectURL(blob);
+    certDownloadLink.href = url;
+    certDownloadLink.style.display = 'inline-block';
+    // revoke old object URL after short delay to avoid leaks when replaced
+    setTimeout(()=> URL.revokeObjectURL(url), 10000);
+  });
+}
+
+/* ======= Utilities ======= */
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, (m) => {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    };
+    return map[m];
+  });
+}
+
+/* ======= Events ======= */
+submitBtn.addEventListener('click', ()=> submitAnswer());
+skipBtn.addEventListener('click', ()=> { qIndex++; if(qIndex<questions.length) renderQuestion(); else endGame(); });
+startBtn.addEventListener('click', ()=> { hallEl.classList.add('hidden'); startGame(); });
+// reset button removed – no event needed
+showHofBtn.addEventListener('click', ()=> { hallEl.classList.toggle('hidden'); if(!hallEl.classList.contains('hidden')) populateHOF(); });
+saveHofBtn.addEventListener('click', saveMyHOFEntry);
+downloadHofBtn.addEventListener('click', downloadHOFData);
+
+/* ======= Initialize UI ======= */
+(function init(){
+  qTotalEl.textContent = questions.length;
+  currentScoreEl.textContent = '0% (0/0)';
+  optionsEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') submitAnswer(); });
+  // hide certificate download link until generated
+  certDownloadLink.style.display = 'none';
+  populateHOF();
+})();
+</script>
+</body>
+</html>
