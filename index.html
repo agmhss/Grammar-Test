@@ -83,8 +83,7 @@
         <div style="font-size:.95rem">If you make the top score, enter your name:</div>
         <input id="hofName" placeholder="Your name" style="padding:8px;border-radius:6px;border:1px solid #e1eefc;width:60%;margin-top:8px" maxlength="30"/>
         <button id="saveHofBtn" style="margin-left:8px">Save</button>
-        <!-- Download HOF button -->
-        <button id="downloadHofBtn" class="btn-ghost" style="margin-left:8px">Download HOF</button>
+        <!-- Download HOF button removed -->
       </div>
     </div>
 
@@ -132,6 +131,48 @@ const questions = [
   { sentence:"He didn't study, ____ he failed the exam.", chapter:"Conjunctions", options:["and","so","because","but"], answer:1, explanation:"‘So’ expresses result." },
   { sentence:"You can have tea ____ coffee.", chapter:"Conjunctions", options:["or","and","but","so"], answer:0, explanation:"‘Or’ indicates choice." },
   { sentence:"He was tired, ____ he continued working.", chapter:"Conjunctions", options:["but","and","so","because"], answer:0, explanation:"‘But’ shows contrast." },
+
+  // Voice (Active/Passive)
+  { sentence:"The letter ____ by him.", chapter:"Voice", options:["is written","was wrote","wrote","written"], answer:0, explanation:"Passive voice uses 'is written'." },
+  { sentence:"The cake ____ by my mother.", chapter:"Voice", options:["is bake","was baked","were baked","is baked"], answer:1, explanation:"Past passive form: 'was baked'." },
+  { sentence:"They will ____ the work.", chapter:"Voice", options:["complete","be completed","completed","be completing"], answer:0, explanation:"Future active voice uses 'will complete'." },
+  { sentence:"The house ____ recently.", chapter:"Voice", options:["built","was built","is building","has built"], answer:1, explanation:"Past passive uses 'was built'." },
+
+  // Prepositions
+  { sentence:"He is good ____ math.", chapter:"Prepositions", options:["at","in","on","for"], answer:0, explanation:"The phrase is 'good at'." },
+  { sentence:"She walked ____ the store.", chapter:"Prepositions", options:["into","in","onto","to"], answer:3, explanation:"We say 'walked to the store'." },
+  { sentence:"They sat ____ the tree.", chapter:"Prepositions", options:["under","on","above","over"], answer:0, explanation:"We sit 'under' a tree for shade." },
+  { sentence:"I will meet you ____ Monday.", chapter:"Prepositions", options:["on","in","at","by"], answer:0, explanation:"Use 'on' for days of the week." },
+
+  // Modals
+  { sentence:"You ____ open the window.", chapter:"Modals", options:["should","must","shall","might"], answer:0, explanation:"'Should' is a gentle suggestion." },
+  { sentence:"I ____ finish this by tomorrow.", chapter:"Modals", options:["can","could","might","must"], answer:3, explanation:"'Must' shows obligation." },
+  { sentence:"____ you pass me the salt?", chapter:"Modals", options:["Could","Must","Should","Will"], answer:0, explanation:"'Could' is polite when making a request." },
+  { sentence:"She ____ speak five languages.", chapter:"Modals", options:["can","may","should","must"], answer:0, explanation:"'Can' shows ability." },
+
+  // Homonyms (commonly confused words)
+  { sentence:"____ going to the park.", chapter:"Homonyms", options:["Their","There","They're","All of them"], answer:2, explanation:"The contraction 'They're' (they are) is correct." },
+  { sentence:"I need to ____ some groceries.", chapter:"Homonyms", options:["buy","by","bye","buoy"], answer:0, explanation:"The correct word is 'buy'." },
+  { sentence:"He read the book ____ fast.", chapter:"Homonyms", options:["too","two","to","top"], answer:0, explanation:"'Too' means excessively." },
+  { sentence:"Please ____ those apples.", chapter:"Homonyms", options:["pair","pare","pear","pairs"], answer:1, explanation:"'Pare' means to trim or peel." },
+
+  // Punctuation
+  { sentence:"Which sentence is punctuated correctly?", chapter:"Punctuation", options:["I bought apples, oranges, and bananas.","I bought apples oranges, and bananas.","I bought, apples, oranges and bananas.","I bought apples oranges and bananas."], answer:0, explanation:"Use commas to separate items in a list." },
+  { sentence:"Choose the correct sentence.", chapter:"Punctuation", options:["Its raining outside.","It's raining outside.","Its' raining outside.","It rains outside."], answer:1, explanation:"Use the contraction 'It's' (it is)." },
+  { sentence:"Select the correctly punctuated sentence.", chapter:"Punctuation", options:["She said I love you.","She said, I love you.","She said, 'I love you.'","She said 'I love you'."], answer:2, explanation:"Use a comma and quotation marks around the spoken words." },
+  { sentence:"Which is correct?", chapter:"Punctuation", options:["Whats your name?","What's your name?","Whats' your name?","What's youre name?"], answer:1, explanation:"Use the contraction 'What's' with an apostrophe." },
+
+  // Connectors (transition words)
+  { sentence:"I studied hard; ____, I passed the exam.", chapter:"Connectors", options:["however","therefore","meanwhile","although"], answer:1, explanation:"'Therefore' shows result." },
+  { sentence:"He is rich; ____, he is unhappy.", chapter:"Connectors", options:["therefore","although","however","because"], answer:2, explanation:"'However' contrasts two clauses." },
+  { sentence:"____ he was late, he still made an effort.", chapter:"Connectors", options:["Although","However","Furthermore","Therefore"], answer:0, explanation:"'Although' introduces a concessive clause." },
+  { sentence:"She is talented; ____, she is humble.", chapter:"Connectors", options:["however","furthermore","although","therefore"], answer:1, explanation:"'Furthermore' adds supporting information." },
+
+  // Homophones
+  { sentence:"I will ____ a letter.", chapter:"Homophones", options:["write","right","rite","wright"], answer:0, explanation:"'Write' means to compose text." },
+  { sentence:"The ____ smells good.", chapter:"Homophones", options:["flower","flour","flow","floor"], answer:0, explanation:"'Flower' is the correct noun." },
+  { sentence:"He is the ____ of the school.", chapter:"Homophones", options:["principal","principle","prince","print"], answer:0, explanation:"'Principal' refers to the head of a school." },
+  { sentence:"____ many cooks spoil the broth.", chapter:"Homophones", options:["Too","To","Two","Too."], answer:0, explanation:"'Too' means excessively." },
 ];
 
 /* ======= Game state ======= */
@@ -145,6 +186,9 @@ let selected = null;
 // keyed by chapter name with {correct:0,total:0}. It is initialized
 // in startGame() and updated in submitAnswer() and when skipping.
 let chapterStats = {};
+
+// gameQuestions will hold a random subset of questions for each game (fixed number)
+let gameQuestions = [];
 
 /* ======= DOM ======= */
 const sentenceEl = document.getElementById('sentence');
@@ -189,10 +233,10 @@ function getRemark(pct){
 
 /* ======= Render ======= */
 function renderQuestion(){
-  if(qIndex >= questions.length){ endGame(); return; }
+  if(qIndex >= gameQuestions.length){ endGame(); return; }
   selected = null;
   feedbackEl.textContent = '';
-  const q = questions[qIndex];
+  const q = gameQuestions[qIndex];
   sentenceEl.textContent = q.sentence;
   optionsEl.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -205,7 +249,7 @@ function renderQuestion(){
     optionsEl.appendChild(btn);
   });
   qIndexEl.textContent = qIndex+1;
-  qTotalEl.textContent = questions.length;
+  qTotalEl.textContent = gameQuestions.length;
   updateProgress();
   // Timer removed: no countdown per question
 }
@@ -224,7 +268,7 @@ function startTimer(seconds){ }
 /* ======= Score Helpers ======= */
 function calculatePercentage(){
   // percentage based on number of questions attempted (qIndex + 1) and correct answers (score)
-  const attempted = Math.min(qIndex + 1, questions.length);
+  const attempted = Math.min(qIndex + 1, gameQuestions.length);
   if(attempted === 0) return 0;
   return (score / attempted) * 100;
 }
@@ -233,14 +277,14 @@ function updateScoreDisplay(){
   const pct = calculatePercentage();
   // display percentage with 0 decimal for brevity
   // show number of attempted questions (qIndex+1)
-  const attempted = Math.min(qIndex + 1, questions.length);
+  const attempted = Math.min(qIndex + 1, gameQuestions.length);
   currentScoreEl.textContent = `${pct.toFixed(0)}% (${score}/${attempted})`;
 }
 
 /* ======= Submit / scoring ======= */
 function submitAnswer(){
   if(!running) return;
-  const q = questions[qIndex];
+  const q = gameQuestions[qIndex];
   if(selected === null){ feedbackEl.textContent = 'Please choose an option or Skip.'; return; }
   // Timer removed: nothing to clear
   const opts = document.querySelectorAll('.opt');
@@ -274,7 +318,7 @@ function submitAnswer(){
   // move to next after delay
   setTimeout(()=> {
     qIndex++;
-    if(qIndex < questions.length) renderQuestion(); else endGame();
+    if(qIndex < gameQuestions.length) renderQuestion(); else endGame();
   }, 1300);
 }
 
@@ -282,31 +326,38 @@ function submitAnswer(){
 function autoSubmit(){ }
 
 function updateProgress(){
-  const pct = Math.round((qIndex / questions.length) * 100);
+  const pct = Math.round((qIndex / gameQuestions.length) * 100);
   progressBar.style.width = pct + '%';
 }
 
 /* ======= Game flow ======= */
 function startGame(){
-  shuffle(questions);
-  qIndex = 0; score = 0;
+  // pick a random subset of 20 questions for this session
+  const shuffled = [...questions];
+  shuffle(shuffled);
+  gameQuestions = shuffled.slice(0, 20);
+  qIndex = 0;
+  score = 0;
   running = true;
   currentScoreEl.textContent = '0% (0/0)';
-  document.getElementById('feedback').textContent = '';
-  // initialize chapterStats: find all unique chapters and reset counts
+  feedbackEl.textContent = '';
+  // initialize chapterStats using selected game questions
   chapterStats = {};
-  questions.forEach(q => {
+  gameQuestions.forEach(q => {
     if(!chapterStats[q.chapter]){
       chapterStats[q.chapter] = { correct: 0, total: 0 };
     }
   });
+  // update total questions display
+  qTotalEl.textContent = gameQuestions.length;
   renderQuestion();
 }
 
 function endGame(){
   running = false;
   // Timer removed: nothing to clear
-  const finalPctVal = (score / questions.length) * 100;
+  // compute final percentage out of the number of selected questions
+  const finalPctVal = (score / gameQuestions.length) * 100;
   const finalPct = finalPctVal.toFixed(0);
   const remark = getRemark(finalPctVal);
   feedbackEl.style.color = '#333';
@@ -331,7 +382,7 @@ function endGame(){
   if(needsWork.length > 0){
     summaryMessage += ` Needs more focus on: ${needsWork.join(', ')}.`;
   }
-  feedbackEl.textContent = `Game over — you scored ${finalPct}% (${score}/${questions.length}). ${remark}${summaryMessage}`;
+  feedbackEl.textContent = `Game over — you scored ${finalPct}% (${score}/${gameQuestions.length}). ${remark}${summaryMessage}`;
   // if qualifies for HOF prompt (percent threshold)
   if(finalPctVal >= HOF_THRESHOLD){
     alert('Great job! You qualify for the Hall of Fame. Enter your name and press Save in the Hall of Fame panel.');
@@ -366,7 +417,7 @@ function populateHOF(){
 function saveMyHOFEntry(){
   const name = (hofNameInput.value || 'Anonymous').trim();
   if(!name){ alert('Enter a name first'); return; }
-  const percentage = ((score / questions.length) * 100);
+  const percentage = ((score / gameQuestions.length) * 100);
   // save locally
   const list = loadHOF();
   list.push({ name, score: percentage });
@@ -422,7 +473,7 @@ function generateCertificate(finalPctVal, excellentChapters = [], needsWorkChapt
   const pctRounded = finalPctVal.toFixed(0);
   ctx.font = '24px Arial';
   ctx.fillStyle = '#333';
-  ctx.fillText(`scored ${pctRounded}% (${score}/${questions.length}) in Grammar Guardian`, 90, 330);
+  ctx.fillText(`scored ${pctRounded}% (${score}/${gameQuestions.length}) in Grammar Guardian`, 90, 330);
   // remark line
   const remark = getRemark(finalPctVal);
   ctx.font = '20px Arial';
@@ -465,14 +516,11 @@ function generateCertificate(finalPctVal, excellentChapters = [], needsWorkChapt
   ctx.font = '18px Arial';
   ctx.fillStyle = '#666';
   ctx.fillText(`Date: ${d}`, 90, certCanvas.height - 80);
-  // convert to blob and set download link
-  certCanvas.toBlob(function(blob){
-    const url = URL.createObjectURL(blob);
-    certDownloadLink.href = url;
-    certDownloadLink.style.display = 'inline-block';
-    // revoke old object URL after short delay to avoid leaks when replaced
-    setTimeout(()=> URL.revokeObjectURL(url), 10000);
-  });
+  // convert to data URL and set download link. Using data URL ensures the
+  // certificate can be downloaded without internet connection or revoked objects.
+  const dataURL = certCanvas.toDataURL('image/png');
+  certDownloadLink.href = dataURL;
+  certDownloadLink.style.display = 'inline-block';
 }
 
 /* ======= Utilities ======= */
@@ -494,7 +542,7 @@ submitBtn.addEventListener('click', ()=> submitAnswer());
 skipBtn.addEventListener('click', ()=> {
   if(!running) return;
   // update chapter stats for skipped question
-  const q = questions[qIndex];
+  const q = gameQuestions[qIndex];
   const chapter = q.chapter;
   if(chapterStats[chapter]){
     chapterStats[chapter].total++;
@@ -502,7 +550,7 @@ skipBtn.addEventListener('click', ()=> {
   qIndex++;
   // update score display to reflect attempted question increase (score unchanged)
   updateScoreDisplay();
-  if(qIndex < questions.length){
+  if(qIndex < gameQuestions.length){
     renderQuestion();
   } else {
     endGame();
@@ -512,11 +560,12 @@ startBtn.addEventListener('click', ()=> { hallEl.classList.add('hidden'); startG
 // reset button removed – no event needed
 showHofBtn.addEventListener('click', ()=> { hallEl.classList.toggle('hidden'); if(!hallEl.classList.contains('hidden')) populateHOF(); });
 saveHofBtn.addEventListener('click', saveMyHOFEntry);
-downloadHofBtn.addEventListener('click', downloadHOFData);
+// downloadHofBtn removed: no event binding
 
 /* ======= Initialize UI ======= */
 (function init(){
-  qTotalEl.textContent = questions.length;
+  // display the fixed number of questions (20) before the game starts
+  qTotalEl.textContent = 20;
   currentScoreEl.textContent = '0% (0/0)';
   optionsEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') submitAnswer(); });
   // hide certificate download link until generated
