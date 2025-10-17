@@ -36,6 +36,9 @@
     .options{grid-template-columns:1fr}
     header{gap:8px}
     .meta{text-align:left;margin-left:0}
+    /* Ensure player details inputs stack on small screens */
+    #playerDetails{flex-direction:column}
+    #playerDetails input{flex:1 1 100%; width:100%}
   }
 </style>
 </head>
@@ -67,6 +70,13 @@
 
       <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
       <div class="feedback" id="feedback" aria-live="polite"></div>
+    </div>
+
+    <!-- Player details for certificate: Name, Class, Section -->
+    <div id="playerDetails" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <input id="playerName" placeholder="Name" style="padding:8px;border-radius:6px;border:1px solid #e1eefc;flex:1 1 30%" maxlength="50" />
+      <input id="playerClass" placeholder="Class" style="padding:8px;border-radius:6px;border:1px solid #e1eefc;flex:1 1 30%" maxlength="20" />
+      <input id="playerSection" placeholder="Section" style="padding:8px;border-radius:6px;border:1px solid #e1eefc;flex:1 1 30%" maxlength="20" />
     </div>
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
@@ -452,33 +462,62 @@ function generateCertificate(finalPctVal, excellentChapters = [], needsWorkChapt
   ctx.strokeStyle = '#2b6cb0';
   ctx.lineWidth = 8;
   ctx.strokeRect(30,30,certCanvas.width-60,certCanvas.height-60);
-  // header with institution name
+  // Fetch name, class, and section from inputs for the certificate
+  const nameInput = document.getElementById('playerName');
+  const classInput = document.getElementById('playerClass');
+  const sectionInput = document.getElementById('playerSection');
+  const name = (nameInput && nameInput.value ? nameInput.value : 'Player').toUpperCase();
+  const classVal = classInput && classInput.value ? classInput.value : '';
+  const sectionVal = sectionInput && sectionInput.value ? sectionInput.value : '';
+
+  // header with institution name, centered
   ctx.fillStyle = '#2b6cb0';
-  ctx.font = '32px Georgia';
-  ctx.fillText('AGMHSS Patteeswaram 612703', 90, 100);
-  // title
-  ctx.fillStyle = '#2b6cb0';
-  ctx.font = '48px Georgia';
-  ctx.fillText('Certificate of Achievement', 90, 160);
-  // subtitle
+  ctx.font = '40px Georgia';
+  let text = 'AGMHSS Patteeswaram 612703';
+  let metrics = ctx.measureText(text);
+  let x = (certCanvas.width - metrics.width) / 2;
+  ctx.fillText(text, x, 100);
+  // title (larger), centered
+  ctx.font = '60px Georgia';
+  text = 'Certificate of Achievement';
+  metrics = ctx.measureText(text);
+  x = (certCanvas.width - metrics.width) / 2;
+  ctx.fillText(text, x, 170);
+  // subtitle (centered as well)
   ctx.fillStyle = '#333';
-  ctx.font = '28px Arial';
-  ctx.fillText('This certifies that', 90, 220);
-  // name
-  const name = (hofNameInput.value || 'Player').toUpperCase();
+  ctx.font = '32px Arial';
+  text = 'This certifies that';
+  metrics = ctx.measureText(text);
+  x = (certCanvas.width - metrics.width) / 2;
+  ctx.fillText(text, x, 230);
+  // name (bold, left aligned at 90)
   ctx.font = 'bold 46px Arial';
   ctx.fillStyle = '#0b6';
-  ctx.fillText(name, 90, 280);
+  ctx.fillText(name, 90, 290);
+  // class and section line
+  ctx.font = '24px Arial';
+  ctx.fillStyle = '#333';
+  let classSectionLine = '';
+  if(classVal){ classSectionLine += `Class: ${classVal}`; }
+  if(sectionVal){
+    if(classSectionLine) classSectionLine += '   ';
+    classSectionLine += `Section: ${sectionVal}`;
+  }
+  if(classSectionLine){
+    ctx.fillText(classSectionLine, 90, 330);
+  }
   // score line
   const pctRounded = finalPctVal.toFixed(0);
   ctx.font = '24px Arial';
   ctx.fillStyle = '#333';
-  ctx.fillText(`scored ${pctRounded}% (${score}/${gameQuestions.length}) in Grammar Guardian`, 90, 330);
+  ctx.fillText(`scored ${pctRounded}% (${score}/${gameQuestions.length}) in Grammar Guardian`, 90, classSectionLine ? 370 : 340);
   // remark line
   const remark = getRemark(finalPctVal);
   ctx.font = '20px Arial';
   ctx.fillStyle = '#555';
-  ctx.fillText(remark, 90, 370);
+  // position remark below previous line
+  const remarkY = classSectionLine ? 410 : 380;
+  ctx.fillText(remark, 90, remarkY);
   // strengths/weakness lines (wrap text if necessary)
   const messages = [];
   if(excellentChapters.length > 0){
@@ -491,7 +530,8 @@ function generateCertificate(finalPctVal, excellentChapters = [], needsWorkChapt
   ctx.fillStyle = '#444';
   // wrap text to fit within 800px width
   const maxWidth = certCanvas.width - 180;
-  let y = 410;
+  // Start drawing strengths/weakness messages below the remark
+  let y = remarkY + 40;
   messages.forEach(msg => {
     const words = msg.split(' ');
     let line = '';
