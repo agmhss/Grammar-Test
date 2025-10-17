@@ -96,16 +96,42 @@
 <script>
 /* ======= Question bank ======= */
 const questions = [
-  { sentence: "She ____ to the store every Saturday.", options:["go","goes","gone","going"], answer:1, explanation:"Third person singular (she) requires 'goes'." },
-  { sentence: "They has finished their homework.", options:["have","has","had","having"], answer:0, explanation:"Subject 'they' takes 'have' not 'has'." },
-  { sentence: "He don't like vegetables.", options:["doesn't","don't","didn't","not"], answer:0, explanation:"Third person singular (he) + negative → 'doesn't'." },
-  { sentence: "I have went to the market.", options:["went","gone","go","been"], answer:1, explanation:"Present perfect requires past participle 'gone'." },
-  { sentence: "There is many books on the table.", options:["are","is","was","were"], answer:0, explanation:"Plural 'books' needs 'are'." },
-  { sentence:"You can come with me ____ stay here.", options:["or","and","so","but"], answer:0, explanation:"‘Or’ shows choice." },
-  { sentence:"I will call you ____ I reach home.", options:["when","so","because","though"], answer:0, explanation:"‘When’ shows time." },
-  { sentence:"He is thin ____ strong.", options:["and","so","or","but"], answer:3, explanation:"‘And’ adds similar ideas." },
-  { sentence:"She didn’t study hard; ____ she failed.", options:["therefore","though","because","but"], answer:0, explanation:"‘Therefore’ shows consequence." },
-  { sentence:"He runs fast ____ he is late.", options:["because","though","so","and"], answer:0, explanation:"‘Though’ shows concession." },
+  // Subject-Verb Agreement
+  { sentence: "She ____ to the store every Saturday.", chapter:"Subject-Verb Agreement", options:["go","goes","gone","going"], answer:1, explanation:"Third person singular (she) requires 'goes'." },
+  { sentence: "They has finished their homework.", chapter:"Subject-Verb Agreement", options:["have","has","had","having"], answer:0, explanation:"Subject 'they' takes 'have' not 'has'." },
+  { sentence: "He don't like vegetables.", chapter:"Subject-Verb Agreement", options:["doesn't","don't","didn't","not"], answer:0, explanation:"Third person singular (he) + negative → 'doesn't'." },
+  { sentence: "There is many books on the table.", chapter:"Subject-Verb Agreement", options:["are","is","was","were"], answer:0, explanation:"Plural 'books' needs 'are'." },
+  { sentence: "He ____ a car.", chapter:"Subject-Verb Agreement", options:["drives","drive","driven","drove"], answer:0, explanation:"Third person singular 'he' takes 'drives'." },
+  { sentence: "My friends ____ going to the party.", chapter:"Subject-Verb Agreement", options:["is","are","am","was"], answer:1, explanation:"Plural subject 'friends' takes 'are'." },
+  { sentence: "The team ____ playing well.", chapter:"Subject-Verb Agreement", options:["is","are","were","have"], answer:0, explanation:"Collective noun 'team' is treated as singular here, so 'is'." },
+  { sentence: "A bouquet of flowers ____ on the table.", chapter:"Subject-Verb Agreement", options:["is","are","were","have been"], answer:0, explanation:"The subject 'bouquet' is singular, so 'is'." },
+  { sentence: "Either the teachers or the principal ____ attending.", chapter:"Subject-Verb Agreement", options:["is","are","were","was"], answer:0, explanation:"When subjects are joined by 'or', the verb agrees with the nearest subject 'principal', so 'is'." },
+  { sentence: "There ____ a lot of people at the concert.", chapter:"Subject-Verb Agreement", options:["was","were","has","have"], answer:1, explanation:"The plural 'people' needs 'were'." },
+
+  // Verb Tense
+  { sentence: "I have went to the market.", chapter:"Verb Tense", options:["went","gone","go","been"], answer:1, explanation:"Present perfect requires past participle 'gone'." },
+  { sentence: "She ____ breakfast already.", chapter:"Verb Tense", options:["ate","eaten","eats","is eating"], answer:1, explanation:"Present perfect uses past participle 'eaten'." },
+  { sentence: "They ____ to school when it started raining.", chapter:"Verb Tense", options:["goes","were going","went","gone"], answer:1, explanation:"Past continuous uses 'were going'." },
+  { sentence: "I ____ here since 2010.", chapter:"Verb Tense", options:["have lived","lived","live","am living"], answer:0, explanation:"'Since' with present perfect → 'have lived'." },
+  { sentence: "By next year, she ____ from college.", chapter:"Verb Tense", options:["will graduate","has graduated","will have graduated","graduates"], answer:2, explanation:"Future perfect → 'will have graduated'." },
+  { sentence: "He ____ a book every night.", chapter:"Verb Tense", options:["read","reads","reading","is reading"], answer:1, explanation:"Habitual action uses simple present 'reads'." },
+  { sentence: "They ____ the project before the deadline last week.", chapter:"Verb Tense", options:["finish","finished","have finished","had finished"], answer:3, explanation:"Past perfect describes action before a past point: 'had finished'." },
+  { sentence: "The sun ____ when we started our hike.", chapter:"Verb Tense", options:["rises","rose","had risen","is rising"], answer:2, explanation:"Past perfect describes an action completed before another past action: 'had risen'." },
+  { sentence: "I ____ soccer tomorrow.", chapter:"Verb Tense", options:["will play","play","played","am playing"], answer:0, explanation:"Future tense: 'will play'." },
+  { sentence: "We ____ each other since last year.", chapter:"Verb Tense", options:["haven't seen","didn't see","don't see","won't see"], answer:0, explanation:"Present perfect negative uses 'haven't seen'." },
+
+  // Conjunctions
+  { sentence:"You can come with me ____ stay here.", chapter:"Conjunctions", options:["or","and","so","but"], answer:0, explanation:"‘Or’ shows choice." },
+  { sentence:"I will call you ____ I reach home.", chapter:"Conjunctions", options:["when","so","because","though"], answer:0, explanation:"‘When’ shows time." },
+  { sentence:"He is thin ____ strong.", chapter:"Conjunctions", options:["and","so","or","but"], answer:0, explanation:"‘And’ adds similar ideas." },
+  { sentence:"She didn’t study hard; ____ she failed.", chapter:"Conjunctions", options:["therefore","though","because","but"], answer:0, explanation:"‘Therefore’ shows consequence." },
+  { sentence:"He runs fast ____ he is late.", chapter:"Conjunctions", options:["because","though","so","and"], answer:1, explanation:"‘Though’ shows concession." },
+  { sentence:"I wanted to go, ____ I was too busy.", chapter:"Conjunctions", options:["but","and","so","because"], answer:0, explanation:"‘But’ shows contrast." },
+  { sentence:"She is smart ____ hardworking.", chapter:"Conjunctions", options:["and","but","or","because"], answer:0, explanation:"‘And’ connects similar qualities." },
+  { sentence:"I will go to bed early ____ I have to wake up at 6 AM.", chapter:"Conjunctions", options:["because","but","so","and"], answer:0, explanation:"‘Because’ gives reason." },
+  { sentence:"He didn't study, ____ he failed the exam.", chapter:"Conjunctions", options:["and","so","because","but"], answer:1, explanation:"‘So’ expresses result." },
+  { sentence:"You can have tea ____ coffee.", chapter:"Conjunctions", options:["or","and","but","so"], answer:0, explanation:"‘Or’ indicates choice." },
+  { sentence:"He was tired, ____ he continued working.", chapter:"Conjunctions", options:["but","and","so","because"], answer:0, explanation:"‘But’ shows contrast." },
 ];
 
 /* ======= Game state ======= */
@@ -114,6 +140,11 @@ let score = 0;
 let running = false;
 let selected = null;
 // Timer removed: no countdown functionality
+
+// Track performance per grammar chapter. chapterStats is an object
+// keyed by chapter name with {correct:0,total:0}. It is initialized
+// in startGame() and updated in submitAnswer() and when skipping.
+let chapterStats = {};
 
 /* ======= DOM ======= */
 const sentenceEl = document.getElementById('sentence');
@@ -146,6 +177,14 @@ const HOF_THRESHOLD = 60; // percent threshold to qualify for HOF
 function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] } }
 // Timer removed: clearTimer is now a no-op
 function clearTimer(){ }
+// Provide positive remarks based on percentage to encourage players
+function getRemark(pct){
+  if(pct >= 90) return 'Outstanding performance! Keep it up!';
+  if(pct >= 75) return 'Great job! Keep practicing.';
+  if(pct >= 50) return 'Good effort! You\'re getting there.';
+  if(pct > 0) return 'Nice try! Keep learning and you\'ll improve.';
+  return 'Give it another shot, and keep practicing!';
+}
 // Removed getBest() and setBest() – no longer tracking best score
 
 /* ======= Render ======= */
@@ -213,9 +252,20 @@ function submitAnswer(){
     score++;
     feedbackEl.textContent = '✅ Correct! +1';
     feedbackEl.style.color = '#0b6';
+    // update chapter stats: increment correct and total for this chapter
+    const chapter = q.chapter;
+    if(chapterStats[chapter]){
+      chapterStats[chapter].correct++;
+      chapterStats[chapter].total++;
+    }
   } else {
     feedbackEl.textContent = '❌ Incorrect. ' + q.explanation;
     feedbackEl.style.color = '#b22222';
+    // update chapter stats: incorrect answer counts toward total only
+    const chapter = q.chapter;
+    if(chapterStats[chapter]){
+      chapterStats[chapter].total++;
+    }
   }
   // update display
   updateScoreDisplay();
@@ -243,23 +293,54 @@ function startGame(){
   running = true;
   currentScoreEl.textContent = '0% (0/0)';
   document.getElementById('feedback').textContent = '';
+  // initialize chapterStats: find all unique chapters and reset counts
+  chapterStats = {};
+  questions.forEach(q => {
+    if(!chapterStats[q.chapter]){
+      chapterStats[q.chapter] = { correct: 0, total: 0 };
+    }
+  });
   renderQuestion();
 }
 
 function endGame(){
   running = false;
   // Timer removed: nothing to clear
-  const finalPct = ((score / questions.length) * 100).toFixed(0);
+  const finalPctVal = (score / questions.length) * 100;
+  const finalPct = finalPctVal.toFixed(0);
+  const remark = getRemark(finalPctVal);
   feedbackEl.style.color = '#333';
-  feedbackEl.textContent = `Game over — you scored ${finalPct}% (${score}/${questions.length}).`;
+  // Build summary of strengths and weaknesses per chapter
+  const excellent = [];
+  const needsWork = [];
+  for(const chap in chapterStats){
+    const stats = chapterStats[chap];
+    if(stats.total > 0){
+      const acc = stats.correct / stats.total;
+      if(acc >= 0.7) excellent.push(chap);
+      else if(acc <= 0.5) needsWork.push(chap);
+    } else {
+      // no attempts means user hasn't practiced this chapter
+      needsWork.push(chap);
+    }
+  }
+  let summaryMessage = '';
+  if(excellent.length > 0){
+    summaryMessage += ` Excellent in: ${excellent.join(', ')}.`;
+  }
+  if(needsWork.length > 0){
+    summaryMessage += ` Needs more focus on: ${needsWork.join(', ')}.`;
+  }
+  feedbackEl.textContent = `Game over — you scored ${finalPct}% (${score}/${questions.length}). ${remark}${summaryMessage}`;
   // if qualifies for HOF prompt (percent threshold)
-  if(finalPct >= HOF_THRESHOLD){
+  if(finalPctVal >= HOF_THRESHOLD){
     alert('Great job! You qualify for the Hall of Fame. Enter your name and press Save in the Hall of Fame panel.');
     hallEl.classList.remove('hidden');
     populateHOF(); // show local top10
   }
   // generate certificate automatically for convenience
-  generateCertificate(finalPct);
+  // pass the numeric percentage to certificate generator
+  generateCertificate(finalPctVal, excellent, needsWork);
 }
 
 /* ======= Hall of Fame (localStorage only) ======= */
@@ -309,7 +390,7 @@ function downloadHOFData(){
 }
 
 /* ======= Certificate generation (canvas) ======= */
-function generateCertificate(finalPct){
+function generateCertificate(finalPctVal, excellentChapters = [], needsWorkChapters = []){
   const ctx = certCanvas.getContext('2d');
   // clear canvas
   ctx.clearRect(0,0,certCanvas.width,certCanvas.height);
@@ -320,6 +401,10 @@ function generateCertificate(finalPct){
   ctx.strokeStyle = '#2b6cb0';
   ctx.lineWidth = 8;
   ctx.strokeRect(30,30,certCanvas.width-60,certCanvas.height-60);
+  // header with institution name
+  ctx.fillStyle = '#2b6cb0';
+  ctx.font = '32px Georgia';
+  ctx.fillText('AGMHSS Patteeswaram 612703', 90, 100);
   // title
   ctx.fillStyle = '#2b6cb0';
   ctx.font = '48px Georgia';
@@ -327,16 +412,54 @@ function generateCertificate(finalPct){
   // subtitle
   ctx.fillStyle = '#333';
   ctx.font = '28px Arial';
-  ctx.fillText(`This certifies that`, 90, 240);
+  ctx.fillText('This certifies that', 90, 220);
   // name
   const name = (hofNameInput.value || 'Player').toUpperCase();
   ctx.font = 'bold 46px Arial';
   ctx.fillStyle = '#0b6';
-  ctx.fillText(name, 90, 310);
-  // achievement
+  ctx.fillText(name, 90, 280);
+  // score line
+  const pctRounded = finalPctVal.toFixed(0);
   ctx.font = '24px Arial';
   ctx.fillStyle = '#333';
-  ctx.fillText(`scored ${finalPct}% (${score}/${questions.length}) in Grammar Guardian`, 90, 370);
+  ctx.fillText(`scored ${pctRounded}% (${score}/${questions.length}) in Grammar Guardian`, 90, 330);
+  // remark line
+  const remark = getRemark(finalPctVal);
+  ctx.font = '20px Arial';
+  ctx.fillStyle = '#555';
+  ctx.fillText(remark, 90, 370);
+  // strengths/weakness lines (wrap text if necessary)
+  const messages = [];
+  if(excellentChapters.length > 0){
+    messages.push('Excellent in: ' + excellentChapters.join(', ') + '.');
+  }
+  if(needsWorkChapters.length > 0){
+    messages.push('Needs more focus on: ' + needsWorkChapters.join(', ') + '.');
+  }
+  ctx.font = '20px Arial';
+  ctx.fillStyle = '#444';
+  // wrap text to fit within 800px width
+  const maxWidth = certCanvas.width - 180;
+  let y = 410;
+  messages.forEach(msg => {
+    const words = msg.split(' ');
+    let line = '';
+    words.forEach(word => {
+      const testLine = line + word + ' ';
+      const metrics = ctx.measureText(testLine);
+      if(metrics.width > maxWidth){
+        ctx.fillText(line.trim(), 90, y);
+        y += 30;
+        line = word + ' ';
+      } else {
+        line = testLine;
+      }
+    });
+    if(line){
+      ctx.fillText(line.trim(), 90, y);
+      y += 30;
+    }
+  });
   // date
   const d = new Date().toLocaleDateString();
   ctx.font = '18px Arial';
@@ -368,7 +491,23 @@ function escapeHtml(str){
 
 /* ======= Events ======= */
 submitBtn.addEventListener('click', ()=> submitAnswer());
-skipBtn.addEventListener('click', ()=> { qIndex++; if(qIndex<questions.length) renderQuestion(); else endGame(); });
+skipBtn.addEventListener('click', ()=> {
+  if(!running) return;
+  // update chapter stats for skipped question
+  const q = questions[qIndex];
+  const chapter = q.chapter;
+  if(chapterStats[chapter]){
+    chapterStats[chapter].total++;
+  }
+  qIndex++;
+  // update score display to reflect attempted question increase (score unchanged)
+  updateScoreDisplay();
+  if(qIndex < questions.length){
+    renderQuestion();
+  } else {
+    endGame();
+  }
+});
 startBtn.addEventListener('click', ()=> { hallEl.classList.add('hidden'); startGame(); });
 // reset button removed – no event needed
 showHofBtn.addEventListener('click', ()=> { hallEl.classList.toggle('hidden'); if(!hallEl.classList.contains('hidden')) populateHOF(); });
