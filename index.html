@@ -110,65 +110,65 @@ const questions = [
   { sentence: "They has finished their homework.", chapter:"Subject-Verb Agreement", options:["have","has","had","having"], answer:0, explanation:"Subject 'they' takes 'have' not 'has'." },
   { sentence: "He don't like vegetables.", chapter:"Subject-Verb Agreement", options:["doesn't","don't","didn't","not"], answer:0, explanation:"Third person singular (he) + negative → 'doesn't'." },
   { sentence: "There is many books on the table.", chapter:"Subject-Verb Agreement", options:["are","is","was","were"], answer:0, explanation:"Plural 'books' needs 'are'." },
-  { sentence: "He ____ a car.", chapter:"Subject-Verb Agreement", options:["drives","drive","driven","drove"], answer:0, explanation:"Third person singular 'he' takes 'drives'." },
+  { sentence: "He ____ a car.", chapter:"Subject-Verb Agreement", options:["drives","drive","driven","driving","driven"], answer:0, explanation:"Third person singular 'he' takes 'drives'." },
   { sentence: "My friends ____ going to the party.", chapter:"Subject-Verb Agreement", options:["is","are","am","was"], answer:1, explanation:"Plural subject 'friends' takes 'are'." },
-  { sentence: "The team ____ playing well.", chapter:"Subject-Verb Agreement", options:["is","are","were","have"], answer:0, explanation:"Collective noun 'team' is treated as singular here, so 'is'." },
+  { sentence: "The team ____ playing well.", chapter:"Subject-Verb Agreement", options:["is","has","had","have"], answer:0, explanation:"Collective noun 'team' is treated as singular here, so 'is'." },
   { sentence: "A bouquet of flowers ____ on the table.", chapter:"Subject-Verb Agreement", options:["is","are","were","have been"], answer:0, explanation:"The subject 'bouquet' is singular, so 'is'." },
-  { sentence: "Either the teachers or the principal ____ attending.", chapter:"Subject-Verb Agreement", options:["is","are","were","was"], answer:0, explanation:"When subjects are joined by 'or', the verb agrees with the nearest subject 'principal', so 'is'." },
+  { sentence: "Either the teachers or the principal ____ attending.", chapter:"Subject-Verb Agreement", options:["is",are","were","was"], answer:0, explanation:"When subjects are joined by 'or', the verb agrees with the nearest subject 'principal', so 'is'." },
   { sentence: "There ____ a lot of people at the concert.", chapter:"Subject-Verb Agreement", options:["was","were","has","have"], answer:1, explanation:"The plural 'people' needs 'were'." },
 
   // Verb Tense
   { sentence: "I have went to the market.", chapter:"Verb Tense", options:["went","gone","go","been"], answer:1, explanation:"Present perfect requires past participle 'gone'." },
-  { sentence: "She ____ breakfast already.", chapter:"Verb Tense", options:["ate","eaten","eats","is eating"], answer:1, explanation:"Present perfect uses past participle 'eaten'." },
+  { sentence: "She has ____ breakfast already.", chapter:"Verb Tense", options:["ate","eaten","eats","is eating"], answer:1, explanation:"Present perfect uses past participle 'eaten'." },
   { sentence: "They ____ to school when it started raining.", chapter:"Verb Tense", options:["goes","were going","went","gone"], answer:1, explanation:"Past continuous uses 'were going'." },
   { sentence: "I ____ here since 2010.", chapter:"Verb Tense", options:["have lived","lived","live","am living"], answer:0, explanation:"'Since' with present perfect → 'have lived'." },
   { sentence: "By next year, she ____ from college.", chapter:"Verb Tense", options:["will graduate","has graduated","will have graduated","graduates"], answer:2, explanation:"Future perfect → 'will have graduated'." },
-  { sentence: "He ____ a book every night.", chapter:"Verb Tense", options:["read","reads","reading","is reading"], answer:1, explanation:"Habitual action uses simple present 'reads'." },
-  { sentence: "They ____ the project before the deadline last week.", chapter:"Verb Tense", options:["finish","finished","have finished","had finished"], answer:3, explanation:"Past perfect describes action before a past point: 'had finished'." },
+  { sentence: "He ____ a book every night.", chapter:"Verb Tense", options:["have read","reads","reading","is reading"], answer:1, explanation:"Habitual action uses simple present 'reads'." },
+  { sentence: "They ____ the project already before the deadline last week.", chapter:"Verb Tense", options:["finish","finishes","have been finished","had finished"], answer:3, explanation:"Past perfect describes action before a past point: 'had finished'." },
   { sentence: "The sun ____ when we started our hike.", chapter:"Verb Tense", options:["rises","rose","had risen","is rising"], answer:2, explanation:"Past perfect describes an action completed before another past action: 'had risen'." },
-  { sentence: "I ____ soccer tomorrow.", chapter:"Verb Tense", options:["will play","play","played","am playing"], answer:0, explanation:"Future tense: 'will play'." },
+  { sentence: "I ____ soccer tomorrow.", chapter:"Verb Tense", options:["will play","plays","played","was playing"], answer:0, explanation:"Future tense: 'will play'." },
   { sentence: "We ____ each other since last year.", chapter:"Verb Tense", options:["haven't seen","didn't see","don't see","won't see"], answer:0, explanation:"Present perfect negative uses 'haven't seen'." },
 
   // Conjunctions
   { sentence:"You can come with me ____ stay here.", chapter:"Conjunctions", options:["or","and","so","but"], answer:0, explanation:"‘Or’ shows choice." },
   { sentence:"I will call you ____ I reach home.", chapter:"Conjunctions", options:["when","so","because","though"], answer:0, explanation:"‘When’ shows time." },
-  { sentence:"He is thin ____ strong.", chapter:"Conjunctions", options:["and","so","or","but"], answer:0, explanation:"‘And’ adds similar ideas." },
+  { sentence:"He is thin ____ strong.", chapter:"Conjunctions", options:["as","so","or","but"], answer:3, explanation:"‘And’ adds similar ideas." },
   { sentence:"She didn’t study hard; ____ she failed.", chapter:"Conjunctions", options:["therefore","though","because","but"], answer:0, explanation:"‘Therefore’ shows consequence." },
-  { sentence:"He runs fast ____ he is late.", chapter:"Conjunctions", options:["because","though","so","and"], answer:1, explanation:"‘Though’ shows concession." },
+  { sentence:"He runs fast ____ he is late.", chapter:"Conjunctions", options:["because","though","so","and"], answer:0, explanation:"‘because’ shows reason." },
   { sentence:"I wanted to go, ____ I was too busy.", chapter:"Conjunctions", options:["but","and","so","because"], answer:0, explanation:"‘But’ shows contrast." },
   { sentence:"She is smart ____ hardworking.", chapter:"Conjunctions", options:["and","but","or","because"], answer:0, explanation:"‘And’ connects similar qualities." },
   { sentence:"I will go to bed early ____ I have to wake up at 6 AM.", chapter:"Conjunctions", options:["because","but","so","and"], answer:0, explanation:"‘Because’ gives reason." },
-  { sentence:"He didn't study, ____ he failed the exam.", chapter:"Conjunctions", options:["and","so","because","but"], answer:1, explanation:"‘So’ expresses result." },
+  { sentence:"He didn't study, ____ he failed the exam.", chapter:"Conjunctions", options:["and","and so","because","but"], answer:1, explanation:"‘and so’ expresses result." },
   { sentence:"You can have tea ____ coffee.", chapter:"Conjunctions", options:["or","and","but","so"], answer:0, explanation:"‘Or’ indicates choice." },
   { sentence:"He was tired, ____ he continued working.", chapter:"Conjunctions", options:["but","and","so","because"], answer:0, explanation:"‘But’ shows contrast." },
 
   // Voice (Active/Passive)
   { sentence:"The letter ____ by him.", chapter:"Voice", options:["is written","was wrote","wrote","written"], answer:0, explanation:"Passive voice uses 'is written'." },
-  { sentence:"The cake ____ by my mother.", chapter:"Voice", options:["is bake","was baked","were baked","is baked"], answer:1, explanation:"Past passive form: 'was baked'." },
+  { sentence:"The cake ____ by my mother.", chapter:"Voice", options:["is bake","was baked","were baked","is bake"], answer:1, explanation:"Past passive form: 'was baked'." },
   { sentence:"They will ____ the work.", chapter:"Voice", options:["complete","be completed","completed","be completing"], answer:0, explanation:"Future active voice uses 'will complete'." },
   { sentence:"The house ____ recently.", chapter:"Voice", options:["built","was built","is building","has built"], answer:1, explanation:"Past passive uses 'was built'." },
 
   // Prepositions
   { sentence:"He is good ____ math.", chapter:"Prepositions", options:["at","in","on","for"], answer:0, explanation:"The phrase is 'good at'." },
-  { sentence:"She walked ____ the store.", chapter:"Prepositions", options:["into","in","onto","to"], answer:3, explanation:"We say 'walked to the store'." },
+  { sentence:"She walked ____ the store.", chapter:"Prepositions", options:["on","above","under","to"], answer:3, explanation:"We say 'walked to the store'." },
   { sentence:"They sat ____ the tree.", chapter:"Prepositions", options:["under","on","above","over"], answer:0, explanation:"We sit 'under' a tree for shade." },
-  { sentence:"I will meet you ____ Monday.", chapter:"Prepositions", options:["on","in","at","by"], answer:0, explanation:"Use 'on' for days of the week." },
+  { sentence:"I will meet you ____ Monday.", chapter:"Prepositions", options:["on","in","at","for"], answer:0, explanation:"Use 'on' for days of the week." },
 
   // Modals
-  { sentence:"You ____ open the window.", chapter:"Modals", options:["should","must","shall","might"], answer:0, explanation:"'Should' is a gentle suggestion." },
-  { sentence:"I ____ finish this by tomorrow.", chapter:"Modals", options:["can","could","might","must"], answer:3, explanation:"'Must' shows obligation." },
-  { sentence:"____ you pass me the salt?", chapter:"Modals", options:["Could","Must","Should","Will"], answer:0, explanation:"'Could' is polite when making a request." },
-  { sentence:"She ____ speak five languages.", chapter:"Modals", options:["can","may","should","must"], answer:0, explanation:"'Can' shows ability." },
+  { sentence:"You ____ obey the traffic rules.", chapter:"Modals", options:["should","must","shall","may"], answer:0, explanation:"'Should' is a gentle suggestion." },
+  { sentence:"I ____ finish this by tomorrow.", chapter:"Modals", options:["dare","used to","dare","must"], answer:3, explanation:"'Must' shows obligation." },
+  { sentence:"____ you pass me the salt?", chapter:"Modals", options:["could","must","Should","shall"], answer:0, explanation:"'Could' is polite when making a request." },
+  { sentence:"She ____ speak five languages.", chapter:"Modals", options:["can","might","should","must"], answer:0, explanation:"'Can' shows ability." },
 
   // Homonyms (commonly confused words)
   { sentence:"____ going to the park.", chapter:"Homonyms", options:["Their","There","They're","All of them"], answer:2, explanation:"The contraction 'They're' (they are) is correct." },
   { sentence:"I need to ____ some groceries.", chapter:"Homonyms", options:["buy","by","bye","buoy"], answer:0, explanation:"The correct word is 'buy'." },
-  { sentence:"He read the book ____ fast.", chapter:"Homonyms", options:["too","two","to","top"], answer:0, explanation:"'Too' means excessively." },
+  { sentence:"He read the book ____ fast.", chapter:"Homonyms", options:["to","two","too","top"], answer:2, explanation:"'Too' means excessively." },
   { sentence:"Please ____ those apples.", chapter:"Homonyms", options:["pair","pare","pear","pairs"], answer:1, explanation:"'Pare' means to trim or peel." },
 
   // Punctuation
-  { sentence:"Which sentence is punctuated correctly?", chapter:"Punctuation", options:["I bought apples, oranges, and bananas.","I bought apples oranges, and bananas.","I bought, apples, oranges and bananas.","I bought apples oranges and bananas."], answer:0, explanation:"Use commas to separate items in a list." },
-  { sentence:"Choose the correct sentence.", chapter:"Punctuation", options:["Its raining outside.","It's raining outside.","Its' raining outside.","It rains outside."], answer:1, explanation:"Use the contraction 'It's' (it is)." },
+  { sentence:"Which sentence is punctuated correctly?", chapter:"Punctuation", options:["I bought apples, oranges, and bananas.","I bought apples oranges, and bananas.","I bought, apples, oranges and bananas.","I, bought. apples oranges and bananas."], answer:0, explanation:"Use commas to separate items in a list." },
+  { sentence:"Choose the correct sentence.", chapter:"Punctuation", options:["Its raining outside.","It's raining outside.","Its' raining outside.","It raining outside."], answer:1, explanation:"Use the contraction 'It's' (it is)." },
   { sentence:"Select the correctly punctuated sentence.", chapter:"Punctuation", options:["She said I love you.","She said, I love you.","She said, 'I love you.'","She said 'I love you'."], answer:2, explanation:"Use a comma and quotation marks around the spoken words." },
   { sentence:"Which is correct?", chapter:"Punctuation", options:["Whats your name?","What's your name?","Whats' your name?","What's youre name?"], answer:1, explanation:"Use the contraction 'What's' with an apostrophe." },
 
@@ -176,13 +176,13 @@ const questions = [
   { sentence:"I studied hard; ____, I passed the exam.", chapter:"Connectors", options:["however","therefore","meanwhile","although"], answer:1, explanation:"'Therefore' shows result." },
   { sentence:"He is rich; ____, he is unhappy.", chapter:"Connectors", options:["therefore","although","however","because"], answer:2, explanation:"'However' contrasts two clauses." },
   { sentence:"____ he was late, he still made an effort.", chapter:"Connectors", options:["Although","However","Furthermore","Therefore"], answer:0, explanation:"'Although' introduces a concessive clause." },
-  { sentence:"She is talented; ____, she is humble.", chapter:"Connectors", options:["however","furthermore","although","therefore"], answer:1, explanation:"'Furthermore' adds supporting information." },
+  { sentence:"She is talented; ____, she is humble.", chapter:"Connectors", options:["in spite of","furthermore","although","therefore"], answer:1, explanation:"'Furthermore' adds supporting information." },
 
   // Homophones
   { sentence:"I will ____ a letter.", chapter:"Homophones", options:["write","right","rite","wright"], answer:0, explanation:"'Write' means to compose text." },
   { sentence:"The ____ smells good.", chapter:"Homophones", options:["flower","flour","flow","floor"], answer:0, explanation:"'Flower' is the correct noun." },
-  { sentence:"He is the ____ of the school.", chapter:"Homophones", options:["principal","principle","prince","print"], answer:0, explanation:"'Principal' refers to the head of a school." },
-  { sentence:"____ many cooks spoil the broth.", chapter:"Homophones", options:["Too","To","Two","Too."], answer:0, explanation:"'Too' means excessively." },
+  { sentence:"He is the ____ of the school.", chapter:"Homophones", options:["principal","principle","princess","print"], answer:0, explanation:"'Principal' refers to the head of a school." },
+  { sentence:"____ many cooks spoil the broth.", chapter:"Homophones", options:["To","Thoo","Two","Too."], answer:3, explanation:"'Too' means excessively." },
 ];
 
 /* ======= Game state ======= */
@@ -466,7 +466,7 @@ function generateCertificate(finalPctVal, excellentChapters = [], needsWorkChapt
   const nameInput = document.getElementById('playerName');
   const classInput = document.getElementById('playerClass');
   const sectionInput = document.getElementById('playerSection');
-  const name = (nameInput && nameInput.value ? nameInput.value : 'Player').toUpperCase();
+  const name = (nameInput && nameInput.value ? nameInput.value : '';).toUpperCase();
   const classVal = classInput && classInput.value ? classInput.value : '';
   const sectionVal = sectionInput && sectionInput.value ? sectionInput.value : '';
 
